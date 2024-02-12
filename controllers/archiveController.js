@@ -2,7 +2,7 @@ const axios = require('axios');
 
 exports.getArchive = async (req, res) => {
     try {
-        const type = req.query.filter || "emailed";
+        const type = req.query.filter || "viewed";
 
         const days = req.query.time || "1";
         const apiKey = process.env.NYT_API_KEY;
