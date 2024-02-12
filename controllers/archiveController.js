@@ -1,8 +1,8 @@
 const axios = require('axios');
 
 exports.getArchive = async (req, res) => {
-    const year = req.query.year;
-    const month = req.query.month;
+    const year = req.query.year || "2021";
+    const month = req.query.month || "7";
     const apiKey = process.env.NYT_API_KEY;
 
     if (!year || !month) {
