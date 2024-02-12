@@ -24,12 +24,12 @@ app.use(session({
 app.set('view engine', 'ejs');
 
 app.set('views', path.join(__dirname, '/views'));
+app.use(flash());
 
 app.use('/admin', adminRouter);
 app.use('/', logoutRoute);
 app.use("/", userRouter);
 app.use("/weather", weatherRouter);
-app.use(flash());
 
 app.use((req, res, next) => {
     res.locals.flashMessages = req.flash();

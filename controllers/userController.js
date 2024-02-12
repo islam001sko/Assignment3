@@ -37,7 +37,11 @@ const signup = async (req, res, next) => {
 
     try {
         await user.save();
-        req.session.user = user;
+        req.session.user = {
+            id: user._id,
+            username: user.username,
+            email: user.email,
+        };
         req.session.save(err => {
             if (err) {
                 console.error("Session save error:", err);
@@ -83,7 +87,7 @@ const login = async (req, res, next) => {
 
 const getHistory = async (req, res, next) => {
     if (req.session && req.session.user) {
-        const userId = req.session.user._id;
+        const userId = req.session.user.id;
         try {
             const user = await User.findById(userId).populate('history');
             if (!user) {

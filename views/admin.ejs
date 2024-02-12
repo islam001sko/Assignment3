@@ -34,6 +34,7 @@
                     <button type="submit" class="btn btn-primary mb-3">Add User</button>
                 </div>
             </form>
+            <a href="/login" class="btn btn-primary">Go To Login</a>
         </div>
         <div>
             <h4>User List</h4>
@@ -43,6 +44,7 @@
                         <%= user.username %> - <%= user.admin ? 'Admin' : 'User' %>
                         <span>
                             <form action="/admin/delete-user/<%= user._id %>" method="POST" style="display: inline;">
+                                <a href="/admin/edit-user/<%= user._id %>" class="btn btn-sm btn-secondary me-2">Edit</a>
                                 <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                             </form>
                         </span>

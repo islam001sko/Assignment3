@@ -34,7 +34,7 @@ const getWeatherData = async (req, res) => {
       });
     }
 
-    const userId = req.session.user._id;
+    const userId = req.session.user.id;
     const user = await User.findById(userId);
 
     try {
