@@ -7,7 +7,7 @@ exports.getArchive = async (req, res) => {
     try {
         const movie = req.query.movie || "Batman";
 
-        const apiKey = process.env.NYT_API_KEY;
+        const apiKey = "19b30116";
 
         const url = `https://www.omdbapi.com/?apikey=${apiKey}&s=${movie}`;
 
