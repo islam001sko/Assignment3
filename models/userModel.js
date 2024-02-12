@@ -24,7 +24,11 @@ const userSchema = new Schema({
     history: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Weather'
-    }]
+    }],
+    archiveHistory: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Archive'
+      }],
 
 }, { collection: 'users' })
 

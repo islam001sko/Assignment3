@@ -15,8 +15,12 @@
   <style>
     .map {
       margin-bottom: 50px;
-      height: 300px;
+      height: 500px;
       width: 100%;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
   </style>
 </head>
@@ -29,6 +33,12 @@
         <h3 class="navbar-nav text-white text-center">Welcome <%=user.username%>
             </h6>
             <ul class="navbar-nav d-flex flex-row me-1">
+              <li class="nav-item me-3 me-lg-0">
+                <a class="nav-link text-white" href="/archive"><i class="fas fa-envelope mx-1"></i> Archive</a>
+              </li>
+              <li class="nav-item me-3 me-lg-0">
+                <a class="nav-link text-white" href="/country"><i class="fas fa-envelope mx-1"></i> Countries</a>
+              </li>
               <li class="nav-item me-3 me-lg-0">
                 <a class="nav-link text-white" href="/history"><i class="fas fa-envelope mx-1"></i> History</a>
               </li>
@@ -47,66 +57,73 @@
       </div>
     </nav>
     <% if (locals.flash && locals.flash.error) { %>
-      <div class="alert alert-danger"><%= locals.flash.error %></div>
-    <% } %>
+      <div class="alert alert-danger">
+        <%= locals.flash.error %>
+      </div>
+      <% } %>
 
-    <% if (locals.flash && locals.flash.success) { %>
-      <div class="alert alert-success"><%= locals.flash.success %></div>
-    <% } %>
-    <div class="container py-5 h-100">
-      <div class="row d-flex justify-content-center align-items-center h-100">
-        <div id="weather" class="col-md-8 col-lg-6 col-xl-4">
-          <form action="/weather" method="get">
-            <input class="form-control mb-2" type="text" id="city" name="city" placeholder="Enter city">
-            <button type="submit" class="btn btn-success btn-block gradient-custom-4 mb-2">Check Weather</button>
-            <div class="card" style="color: #4B515D; border-radius: 35px;">
-              <div class="card-body p-4">
-                <div class="d-flex">
-                  <h6 class="flex-grow-1">
-                    <%=city%>
-                  </h6>
-                  <h6>
-                    <%=time%>
-                  </h6>
-                </div>
+        <% if (locals.flash && locals.flash.success) { %>
+          <div class="alert alert-success">
+            <%= locals.flash.success %>
+          </div>
+          <% } %>
+            <div class="container py-5 h-100">
+              <div class="row d-flex justify-content-center align-items-center h-100">
+                <div id="weather" class="col-md-8 col-lg-6 col-xl-4">
+                  <form action="/weather" method="get">
+                    <input class="form-control mb-2" type="text" id="city" name="city" placeholder="Enter city">
+                    <button type="submit" class="btn btn-success btn-block gradient-custom-4 mb-2">Check
+                      Weather</button>
+                    <a href="#map" class="btn btn-primary btn-block gradient-custom-4 mb-2">Go to Map</a>
+                    <div class="card" style="color: #4B515D; border-radius: 35px;">
+                      <div class="card-body p-4">
+                        <div class="d-flex">
+                          <h6 class="flex-grow-1">
+                            <%=city%>
+                          </h6>
+                          <h6>
+                            <%=time%>
+                          </h6>
+                        </div>
 
-                <div class="d-flex flex-column text-center mt-5 mb-4">
-                  <h6 class="display-4 mb-0 font-weight-bold" style="color: #1C2331;">
-                    <%=weatherData.main.temp%>
-                  </h6>
-                  <span class="small" style="color: #868B94">
-                    <%=weatherData.weather[0].description%>
-                  </span>
-                </div>
+                        <div class="d-flex flex-column text-center mt-5 mb-4">
+                          <h6 class="display-4 mb-0 font-weight-bold" style="color: #1C2331;">
+                            <%=weatherData.main.temp%>
+                          </h6>
+                          <span class="small" style="color: #868B94">
+                            <%=weatherData.weather[0].description%>
+                          </span>
+                        </div>
 
-                <div class="d-flex align-items-center">
-                  <div class="flex-grow-1" style="font-size: 1rem;">
-                    <div><i class="fas fa-wind fa-fw" style="color: #868B94;"></i> <span class="ms-1">
-                        <%=weatherData.wind.speed%> m/s
-                      </span></div>
-                    <div><i class="fas fa-tint fa-fw" style="color: #868B94;"></i> <span class="ms-1">
-                        <%=weatherData.main.humidity%>%
-                      </span>
-                    </div>
-                    <div><i class="fas fa-sun fa-fw" style="color: #868B94;"></i> <span class="ms-1">
-                        <%=weatherData.main.pressure%> mb
-                      </span>
-                    </div>
-                  </div>
-                  <div>
-                    <img src="https://openweathermap.org/img/wn/<%=weatherData.weather[0].icon%>@2x.png" width="100px">
-                  </div>
+                        <div class="d-flex align-items-center">
+                          <div class="flex-grow-1" style="font-size: 1rem;">
+                            <div><i class="fas fa-wind fa-fw" style="color: #868B94;"></i> <span class="ms-1">
+                                <%=weatherData.wind.speed%> m/s
+                              </span></div>
+                            <div><i class="fas fa-tint fa-fw" style="color: #868B94;"></i> <span class="ms-1">
+                                <%=weatherData.main.humidity%>%
+                              </span>
+                            </div>
+                            <div><i class="fas fa-sun fa-fw" style="color: #868B94;"></i> <span class="ms-1">
+                                <%=weatherData.main.pressure%> mb
+                              </span>
+                            </div>
+                          </div>
+                          <div>
+                            <img src="https://openweathermap.org/img/wn/<%=weatherData.weather[0].icon%>@2x.png"
+                              width="100px">
+                          </div>
+                        </div>
+                  </form>
                 </div>
-          </form>
-        </div>
-      </section>
-      <div class="map" id="map" data-latitude="<%=weatherData.coord.lat%>"
-        data-longitude="<%=weatherData.coord.lon%>"></div>
-    </div>
-    <footer>
-      <h2 class="text-center">Islam Zhaslanuly SE-2202</h2>
-    </footer>
-      <script>
+  </section>
+  <div class="map" id="map" data-latitude="<%=weatherData.coord.lat%>" data-longitude="<%=weatherData.coord.lon%>">
+  </div>
+  </div>
+  <footer>
+    <h2 class="text-center">Islam Zhaslanuly SE-2202</h2>
+  </footer>
+  <script>
     function mapStart() {
       const mapElement = document.getElementById('map');
       if (!mapElement) return;

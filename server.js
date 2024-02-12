@@ -4,7 +4,9 @@ require('dotenv').config();
 const userRouter = require('./routes/userRoute.js');
 const weatherRouter = require('./routes/weatherRoute.js');
 const adminRouter = require('./routes/adminRoute.js');
-const logoutRoute = require("./routes/logoutRoute.js")
+const logoutRoute = require("./routes/logoutRoute.js");
+const archiveRouter = require('./routes/archiveRoute.js');
+const countryRouter = require("./routes/countryRoute.js")
 const bodyParser = require('body-parser');
 const flash = require('connect-flash');
 const path = require('path');
@@ -27,6 +29,8 @@ app.set('views', path.join(__dirname, '/views'));
 app.use(flash());
 
 app.use('/admin', adminRouter);
+app.use('/country', countryRouter);
+app.use("/archive", archiveRouter);
 app.use('/', logoutRoute);
 app.use("/", userRouter);
 app.use("/weather", weatherRouter);

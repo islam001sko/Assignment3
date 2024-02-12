@@ -103,6 +103,24 @@ const getHistory = async (req, res, next) => {
     }
 };
 
+const getArchiveHistory = async (req, res, next) => {
+    if (req.session && req.session.user) {
+        const userId = req.session.user.id; // Ensure you're using the correct user identifier here, might be _id
+        try {
+            const user = await User.findById(userId).populate('archiveHistory');
+            if (!user) {
+                return res.status(404).json({ message: "Archive history not found" });
+            }
+            res.render('archiveHistory', { user: user, archiveHistory: user.archiveHistory });
+        } catch (err) {
+            console.error(err);
+            return res.status(500).json({ message: "Error fetching archive history" });
+        }
+    } else {
+        return res.redirect('/login');
+    }
+};
+
 
 const getSignUp = async (req, res, next) => {
     res.render('signup');
@@ -119,4 +137,5 @@ module.exports = {
     signup,
     login,
     getHistory,
+    getArchiveHistory,
 };

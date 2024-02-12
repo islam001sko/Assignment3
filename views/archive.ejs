@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>NYT Archive</title>
+  <!-- Include Bootstrap CSS from CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+    integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <section class="vh-100" style="background-color: #4B515D;">
+    <nav class="navbar navbar-expand-lg bg-info navbar-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Weather</a>
+        <h3 class="navbar-nav text-white text-center">Welcome <%=user.username%>
+            </h6>
+            <ul class="navbar-nav d-flex flex-row me-1">
+              <li class="nav-item me-3 me-lg-0">
+                <a class="nav-link text-white" href="/archive"><i class="fas fa-envelope mx-1"></i>
+                  Archive</a>
+              </li>
+              <li class="nav-item me-3 me-lg-0">
+                <a class="nav-link text-white" href="/country"><i class="fas fa-envelope mx-1"></i>
+                  Countries</a>
+              </li>
+              <li class="nav-item me-3 me-lg-0">
+                <a class="nav-link text-white" href="/history"><i class="fas fa-envelope mx-1"></i>
+                  History</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
+                  data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fas fa-user mx-1"></i> Profile
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                  <li>
+                    <a class="dropdown-item" href="/logout">Log out</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+      </div>
+    </nav>
+    <div class="container mt-5">
+      <h1 class="mb-4 text-white">New York Times Archive Articles</h1>
+      <form action="/archive" method="get" class="mb-5">
+        <div class="form-row align-items-center">
+          <div class="col-auto">
+            <label for="year" class="sr-only text-white">Year</label>
+            <input type="number" class="form-control mb-2" id="year" name="year" placeholder="Year (For example: 2019)" min="1851" required>
+          </div>
+          <div class="col-auto">
+            <label for="month" class="sr-only text-white">Month</label>
+            <input type="number" class="form-control mb-2" id="month" name="month" placeholder="Month (For example: 7)" min="1" max="12"
+              required>
+          </div>
+          <div class="col-auto">
+            <button type="submit" class="btn btn-primary mb-2">Fetch Articles</button>
+          </div>
+        </div>
+      </form>
+
+      <% if (articles) { %>
+        <div class="list-group">
+          <% articles.forEach(article=> { %>
+            <a href="<%= article.web_url %>"
+              class="list-group-item list-group-item-action flex-column align-items-start" target="_blank">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">
+                  <%= article.headline.main %>
+                </h5>
+                <small>
+                  <%= new Date(article.pub_date).toDateString() %>
+                </small>
+              </div>
+              <p class="mb-1">
+                <%= article.snippet %>
+              </p>
+              <small>
+                <%= article.section_name ? article.section_name : 'N/A' %>
+              </small>
+              <% if (article.byline && article.byline.original) { %>
+                <br><small>
+                  <%= article.byline.original %>
+                </small>
+                <% } %>
+            </a>
+            <% }) %>
+        </div>
+        <% } else { %>
+          <p>No articles found. Please select a year and month.</p>
+          <% } %>
+    </div>
+  </section>
+</body>
+
+</html>

@@ -19,19 +19,27 @@
         <nav class="navbar navbar-expand-lg bg-info navbar-dark">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">Weather</a>
-                <h3 class="navbar-nav text-white text-center">History of <%=user.username%>
+                <h3 class="navbar-nav text-white text-center">Welcome <%=user.username%>
                         </h6>
                         <ul class="navbar-nav d-flex flex-row me-1">
                             <li class="nav-item me-3 me-lg-0">
-                                <a class="nav-link text-white" href="/weather"><i class="fas fa-cog mx-1"></i> Main </a>
+                                <a class="nav-link text-white" href="/archive"><i class="fas fa-envelope mx-1"></i>
+                                    Archive</a>
+                            </li>
+                            <li class="nav-item me-3 me-lg-0">
+                                <a class="nav-link text-white" href="/country"><i class="fas fa-envelope mx-1"></i>
+                                    Countries</a>
+                            </li>
+                            <li class="nav-item me-3 me-lg-0">
+                                <a class="nav-link text-white" href="/history"><i class="fas fa-envelope mx-1"></i>
+                                    History</a>
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown"
-                                    role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="fas fa-user mx-1"></i> Profile
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        
                                     <li>
                                         <a class="dropdown-item" href="/logout">Log out</a>
                                     </li>
