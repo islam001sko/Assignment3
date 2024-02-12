@@ -1,25 +1,55 @@
 const axios = require('axios');
+const Film = require('../models/archiveModel')
+const User = require("../models/userModel.js");
+
 
 exports.getArchive = async (req, res) => {
     try {
-        const type = req.query.filter || "viewed";
+        const movie = req.query.movie || "Batman";
 
-        const days = req.query.time || "1";
         const apiKey = process.env.NYT_API_KEY;
 
-        const url = `https://api.nytimes.com/svc/mostpopular/v2/${type}/${days}.json?api-key=${apiKey}`;
+        const url = `https://www.omdbapi.com/?apikey=${apiKey}&s=${movie}`;
 
         const response = await axios.get(url);
         const data = response.data;
 
-        if (data.status === "OK") {
-            const articles = data.results.slice(0, 3);
-            res.render('archive', { articles, user: req.session.user });
-        } else {
-            res.render('archive', { articles: null, user: req.session.user });
+        const userId = req.session.user.id;
+        
+        let film;
+
+        const existingFilm = await Film.findOne({ title:  data.Search[0].Title});
+        if (existingFilm){
+            existingFilm.title = data.Search[0].Title;
+            existingFilm.type = data.Search[0].Type;
+            existingFilm.poster = data.Search[0].Poster;
+            existingFilm.year = data.Search[0].Year;
+            await existingFilm.save();
+            film = existingFilm;
+        } else{
+
+            
+            film = await Film.create({
+                poster: data.Search[0].Poster,
+                title: data.Search[0].Title,
+                type: data.Search[0].Type,
+                year: data.Search[0].Year,
+            })
         }
+
+        try {
+            await User.findByIdAndUpdate(userId, {
+                $addToSet: { archiveHistory: film._id }
+            });
+        } catch (error) {
+            console.error("Error updating user history:", error);
+            return res.status(500).json({ error: 'Internal Server Error UPT' });
+        }
+
+
+        res.render('archive', { data, user: req.session.user });
     } catch (error) {
         console.error('Error fetching archive data:', error);
-        res.render('archive', { articles: null, user: req.session.user });
+        res.render('archive', { data: null, user: req.session.user });
     }
 };

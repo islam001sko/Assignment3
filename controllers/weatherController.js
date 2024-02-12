@@ -43,7 +43,7 @@ const getWeatherData = async (req, res) => {
       });
     } catch (error) {
       console.error("Error updating user history:", error);
-      return res.status(500).json({ error: 'Internal Server Error' });
+      return res.status(500).json({ error: 'Internal Server Error UPT' });
     } 
 
     var time = new Date();

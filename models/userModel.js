@@ -28,7 +28,11 @@ const userSchema = new Schema({
     archiveHistory: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Archive'
-      }],
+    }],
+    countryHistory: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Country'
+    }],
 
 }, { collection: 'users' })
 

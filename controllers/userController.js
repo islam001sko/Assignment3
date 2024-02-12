@@ -85,36 +85,19 @@ const login = async (req, res, next) => {
 }
 
 
-const getHistory = async (req, res, next) => {
+const getCombinedHistory = async (req, res, next) => {
     if (req.session && req.session.user) {
         const userId = req.session.user.id;
         try {
-            const user = await User.findById(userId).populate('history');
+            // Assuming both histories are fields in the User model
+            const user = await User.findById(userId).populate('history archiveHistory countryHistory');
             if (!user) {
-                return res.status(404).json({ message: "history not found" });
+                return res.status(404).json({ message: "User not found" });
             }
-            res.render('history', { user: user, history: user.history });
-        } catch (err) {
-            console.log(err);
-            return res.status(500).json({ message: "Error fetching user history" });
-        }
-    } else {
-        return res.redirect('/login'); // Or your preferred way to handle this
-    }
-};
-
-const getArchiveHistory = async (req, res, next) => {
-    if (req.session && req.session.user) {
-        const userId = req.session.user.id; // Ensure you're using the correct user identifier here, might be _id
-        try {
-            const user = await User.findById(userId).populate('archiveHistory');
-            if (!user) {
-                return res.status(404).json({ message: "Archive history not found" });
-            }
-            res.render('archiveHistory', { user: user, archiveHistory: user.archiveHistory });
+            res.render('history', { user: user, history: user.history, archiveHistory: user.archiveHistory, countryHistory: user.countryHistory });
         } catch (err) {
             console.error(err);
-            return res.status(500).json({ message: "Error fetching archive history" });
+            return res.status(500).json({ message: "Error fetching user history" });
         }
     } else {
         return res.redirect('/login');
@@ -136,6 +119,5 @@ module.exports = {
     getLogin,
     signup,
     login,
-    getHistory,
-    getArchiveHistory,
+    getCombinedHistory,
 };

@@ -15,37 +15,36 @@
 </head>
 
 <body>
-    <section class="vh-100" style="background-color: #4B515D;">
+    <section class="" style="background-color: #4B515D;">
         <nav class="navbar navbar-expand-lg bg-info navbar-dark">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">Weather</a>
-                <h3 class="navbar-nav text-white text-center">Welcome <%=user.username%>
-                        </h6>
-                        <ul class="navbar-nav d-flex flex-row me-1">
-                            <li class="nav-item me-3 me-lg-0">
-                                <a class="nav-link text-white" href="/archive"><i class="fas fa-envelope mx-1"></i>
-                                    Archive</a>
-                            </li>
-                            <li class="nav-item me-3 me-lg-0">
-                                <a class="nav-link text-white" href="/country"><i class="fas fa-envelope mx-1"></i>
-                                    Countries</a>
-                            </li>
-                            <li class="nav-item me-3 me-lg-0">
-                                <a class="nav-link text-white" href="/history"><i class="fas fa-envelope mx-1"></i>
-                                    History</a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-user mx-1"></i> Profile
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <li>
-                                        <a class="dropdown-item" href="/logout">Log out</a>
-                                    </li>
-                                </ul>
+                <h3 class="navbar-nav text-white text-center">Welcome <%=user.username%></h3>
+                <ul class="navbar-nav d-flex flex-row me-1">
+                    <li class="nav-item me-3 me-lg-0">
+                        <a class="nav-link text-white" href="/archive"><i class="fas fa-envelope mx-1"></i> Archive</a>
+                    </li>
+                    <li class="nav-item me-3 me-lg-0">
+                        <a class="nav-link text-white" href="/country"><i class="fas fa-envelope mx-1"></i> Countries</a>
+                    </li>
+                    <li class="nav-item me-3 me-lg-0">
+                        <a class="nav-link text-white" href="/history"><i class="fas fa-envelope mx-1"></i> History</a>
+                    </li>
+                    <li class="nav-item me-3 me-lg-0">
+                        <a class="nav-link text-white" href="/weather"><i class="fas fa-envelope mx-1"></i> Main</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown"
+                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user mx-1"></i> Profile
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a class="dropdown-item" href="/logout">Log out</a>
                             </li>
                         </ul>
+                    </li>
+                </ul>
             </div>
         </nav>
         <div class="container pt-2 h-100">
@@ -57,33 +56,17 @@
                                 <div class="card-body p-2">
                                     <p>Created Date: <%= new Date(weatherData.createdAt).toLocaleDateString("en-US") %></p>
                                     <div class="d-flex">
-                                        <h6 class="flex-grow-1">
-                                            <%= weatherData.city %>
-                                        </h6>
-                                       
+                                        <h6 class="flex-grow-1"><%= weatherData.city %></h6>
                                     </div>
                                     <div class="d-flex flex-column text-center mt-5 mb-4">
-                                        <h6 class="display-4 mb-0 font-weight-bold" style="color: #1C2331;">
-                                            <%= weatherData.temperature %>°C
-                                        </h6>
-                                        <span class="small" style="color: #868B94">
-                                            <%= weatherData.description %>
-                                        </span>
+                                        <h6 class="display-4 mb-0 font-weight-bold" style="color: #1C2331;"><%= weatherData.temperature %>°C</h6>
+                                        <span class="small" style="color: #868B94"><%= weatherData.description %></span>
                                     </div>
                                     <div class="d-flex align-items-center">
                                         <div class="flex-grow-1" style="font-size: 1rem;">
-                                            <div><i class="fas fa-wind fa-fw" style="color: #868B94;"></i> <span
-                                                    class="ms-1">
-                                                    <%= weatherData.windSpeed %> m/s
-                                                </span></div>
-                                            <div><i class="fas fa-tint fa-fw" style="color: #868B94;"></i> <span
-                                                    class="ms-1">
-                                                    <%= weatherData.humidity %>%
-                                                </span></div>
-                                            <div><i class="fas fa-sun fa-fw" style="color: #868B94;"></i> <span
-                                                    class="ms-1">
-                                                    <%= weatherData.pressure %> mb
-                                                </span></div>
+                                            <div><i class="fas fa-wind fa-fw" style="color: #868B94;"></i> <span class="ms-1"><%= weatherData.windSpeed %> m/s</span></div>
+                                            <div><i class="fas fa-tint fa-fw" style="color: #868B94;"></i> <span class="ms-1"><%= weatherData.humidity %>%</span></div>
+                                            <div><i class="fas fa-sun fa-fw" style="color: #868B94;"></i> <span class="ms-1"><%= weatherData.pressure %> mb</span></div>
                                         </div>
                                         <div>
                                             <img src="https://openweathermap.org/img/wn/<%=weatherData.icon%>@2x.png"
@@ -93,17 +76,55 @@
                                 </div>
                             </div>
                         </div>
-                        <% }) %>
+                    <% }) %>
                 </div>
-                <% } else { %>
-                    <div class="text-center">No weather history found.</div>
-                    <% } %>
+            <% } else { %>
+                <div class="text-center">No weather history found.</div>
+            <% } %>
+            <% if (archiveHistory && archiveHistory.length > 0) { %>
+                    <% archiveHistory.forEach(function(data) { %>
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="card" style="color: #4B515D; border-radius: 35px;">
+                                <div class="card-body p-2">
+                                    <h6 class="flex-grow-1 text-center"><%= data.title %></h6>
+                                    <img src="<%= data.poster %>" class="img-fluid mx-auto d-block" width="100px">
+                                    <div class="text-center mt-5 mb-4">
+                                        <div><strong>Year:</strong> <%= data.year %></div>
+                                        <div><strong>Type:</strong> <%= data.type %></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% }) %>
+            <% } else { %>
+                <div class="text-center">No archive history found.</div>
+            <% } %>
+            <% if (countryHistory && countryHistory.length > 0) { %>
+                        <% countryHistory.forEach(function(data) { %>
+                            <div class="col-md-6 col-lg-4 mb-3">
+                                <div class="card" style="color: #4B515D; border-radius: 35px;">
+                                    <div class="card-body p-2">
+                                        <h6 class="flex-grow-1 text-center"><%= data.name %></h6>
+                                        <div class="text-center mt-5 mb-4">
+                                            <div><strong>Capital:</strong> <%= data.capital %></div>
+                                            <div><strong>Population:</strong> <%= data.population %></div>
+                                            <div><strong>Region:</strong> <%= data.region %></div>
+                                            <div><strong>Fifa:</strong> <%= data.fifa %></div>
+                                            <div><strong>Time Zone:</strong> <%= data.timezones  %></div>
+                                            <div><strong>Area:</strong> <%= data.area %> m2</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }) %>
+            <% } else { %>
+                <div class="text-center">No country history.</div>
+            <% } %>
         </div>
-
     </section>
     <footer>
         <h2 class="text-center">Islam Zhaslanuly SE-2202</h2>
-      </footer>
+    </footer>
 </body>
 
 </html>

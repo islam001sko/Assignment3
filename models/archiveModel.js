@@ -2,13 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const archiveSchema = new Schema({
-  accessedAt: { type: Date, default: Date.now },
-  articles: [{
-    headline: String,
-    snippet: String,
-    web_url: String,
-    pub_date: Date
-  }]
+  title: String,
+  year: String,
+  type: String,
+  poster: String
 });
 
 const Archive = mongoose.model('Archive', archiveSchema);
