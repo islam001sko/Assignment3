@@ -1,3 +1,5 @@
+const axios = require('axios');
+
 exports.getArchive = async (req, res) => {
     const year = req.query.year;
     const month = req.query.month;
@@ -10,10 +12,9 @@ exports.getArchive = async (req, res) => {
     const url = `https://api.nytimes.com/svc/archive/v1/${year}/${month}.json?api-key=${apiKey}`;
 
     try {
-        const fetch = (await import('node-fetch')).default;
-
-        const response = await fetch(url);
-        const data = await response.json();
+        const response = await axios.get(url);
+        const data = response.data;
+        console.log(data);
         const articles = data.response.docs.slice(0, 3);
         res.render('archive', { articles, user: req.session.user });
     } catch (error) {
