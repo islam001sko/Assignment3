@@ -6,6 +6,7 @@ const weatherRouter = require('./routes/weatherRoute.js');
 const adminRouter = require('./routes/adminRoute.js');
 const logoutRoute = require("./routes/logoutRoute.js")
 const bodyParser = require('body-parser');
+const flash = require('connect-flash');
 const path = require('path');
 const session = require('express-session');
 
@@ -28,6 +29,12 @@ app.use('/admin', adminRouter);
 app.use('/', logoutRoute);
 app.use("/", userRouter);
 app.use("/weather", weatherRouter);
+app.use(flash());
+
+app.use((req, res, next) => {
+    res.locals.flashMessages = req.flash();
+    next();
+});
 app.use((req, res, next) => {
   if (req.session.user) {
       res.locals.user = req.session.user;

@@ -48,7 +48,7 @@ const getWeatherData = async (req, res) => {
 
     var time = new Date();
     const formattedTime = `${time.getHours()}:${time.getMinutes()}`;
-    res.render('main', { time: formattedTime, user: req.session.user, weatherData: data, city });
+    res.render('main', { time: formattedTime, user: req.session.user, weatherData: data, city:city });
   } catch (error) {
     return res.status(500).json({ error: 'Internal Server Error' });
   }

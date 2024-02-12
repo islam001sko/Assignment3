@@ -43,7 +43,7 @@ const signup = async (req, res, next) => {
                 console.error("Session save error:", err);
                 return res.status(500).json({ message: "Session error, please try again." });
             }
-            res.render('/weather', {user: req.session.user});
+            res.redirect('/weather');
         });
     } catch (err) {
         return console.log(err)
@@ -55,12 +55,14 @@ const login = async (req, res, next) => {
     try {
         const existingUser = await User.findOne({ email });
         if (!existingUser) {
-            alert("User with this email is not found");
+            req.flash('error', 'User not found by this email');
+            return res.redirect('/login');
         }
-        
+
         const isPasswordCorrect = bcrypt.compareSync(password, existingUser.password);
         if (!isPasswordCorrect) {
-            alert("Incorrect Password. Try again");
+            req.flash('error', 'Incorrect password');
+            return res.redirect('/login');
         }
 
         req.session.user = { id: existingUser._id, admin: existingUser.admin, username: existingUser.username };
@@ -73,23 +75,27 @@ const login = async (req, res, next) => {
             return res.redirect(existingUser.admin ? '/admin' : '/weather');
         });
     } catch (err) {
-        console.log(err);
-        return res.status(500).json({ message: "Login error, please try again." });
+        req.flash('error', 'Login error, please try again.');
+        res.redirect('/login');
     }
 }
 
 
 const getHistory = async (req, res, next) => {
-    const userId = req.session.user.id;
-    try {
-        const user = await User.findById(userId).populate('history');
-        if (!user) {
-            return res.status(404).json({ message: "history not found" });
+    if (req.session && req.session.user) {
+        const userId = req.session.user._id;
+        try {
+            const user = await User.findById(userId).populate('history');
+            if (!user) {
+                return res.status(404).json({ message: "history not found" });
+            }
+            res.render('history', { user: user, history: user.history });
+        } catch (err) {
+            console.log(err);
+            return res.status(500).json({ message: "Error fetching user history" });
         }
-        res.render('history', { user: user, history: user.history });
-    } catch (err) {
-        console.log(err);
-        return res.status(500).json({ message: "Error fetching user history" });
+    } else {
+        return res.redirect('/login'); // Or your preferred way to handle this
     }
 };
 

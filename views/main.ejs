@@ -49,6 +49,13 @@
             </ul>
       </div>
     </nav>
+    <% if (locals.flash && locals.flash.error) { %>
+      <div class="alert alert-danger"><%= locals.flash.error %></div>
+    <% } %>
+
+    <% if (locals.flash && locals.flash.success) { %>
+      <div class="alert alert-success"><%= locals.flash.success %></div>
+    <% } %>
     <div class="container py-5 h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div id="weather" class="col-md-8 col-lg-6 col-xl-4">
