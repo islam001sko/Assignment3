@@ -33,27 +33,26 @@
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         
                                     <li>
-                                        <a class="dropdown-item" href="#">Log out</a>
+                                        <a class="dropdown-item" href="/login">Log out</a>
                                     </li>
                                 </ul>
                             </li>
                         </ul>
             </div>
         </nav>
-        <div class="container py-5 h-100">
+        <div class="container pt-2 h-100">
             <% if (history && history.length> 0) { %>
                 <div class="row justify-content-center align-items-center mb-4">
                     <% history.forEach(weatherData=> { %>
-                        <div class="col-md-8 col-lg-6 col-xl-4 mb-4">
+                        <div class="col-md-8 col-lg-6 col-xl-4 mb-2">
                             <div class="card" style="color: #4B515D; border-radius: 35px;">
-                                <div class="card-body p-4">
+                                <div class="card-body p-2">
+                                    <p>Created Date: <%= new Date(weatherData.createdAt).toLocaleDateString("en-US") %></p>
                                     <div class="d-flex">
                                         <h6 class="flex-grow-1">
                                             <%= weatherData.city %>
                                         </h6>
-                                        <h6>
-                                            <%= new Date(weatherData.createdAt).toLocaleDateString() %>
-                                        </h6>
+                                       
                                     </div>
                                     <div class="d-flex flex-column text-center mt-5 mb-4">
                                         <h6 class="display-4 mb-0 font-weight-bold" style="color: #1C2331;">
@@ -94,6 +93,9 @@
         </div>
 
     </section>
+    <footer>
+        <h2 class="text-center">Islam Zhaslanuly SE-2202</h2>
+      </footer>
 </body>
 
 </html>

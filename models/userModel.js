@@ -14,18 +14,19 @@ const userSchema = new Schema({
     },
     password: {
         type: String,
-        required: true, 
+        required: true,
         minlength: 5
     },
-    admin: {
-        type: Boolean,
-    },
+    admin: { type: Boolean, default: false },
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date },
+    deletedAt: { type: Date, default: null },
     history: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Weather'
     }]
 
-},{collection: 'users'})
+}, { collection: 'users' })
 
 const User = mongoose.model('User', userSchema, 'users');
 

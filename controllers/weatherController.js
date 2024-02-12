@@ -34,7 +34,7 @@ const getWeatherData = async (req, res) => {
       });
     }
 
-    const userId = req.session.userId;
+    const userId = req.session.user._id;
     const user = await User.findById(userId);
 
     try {
@@ -44,12 +44,11 @@ const getWeatherData = async (req, res) => {
     } catch (error) {
       console.error("Error updating user history:", error);
       return res.status(500).json({ error: 'Internal Server Error' });
-    }
-
+    } 
 
     var time = new Date();
     const formattedTime = `${time.getHours()}:${time.getMinutes()}`;
-    res.render('main', { time: formattedTime, user: user, weatherData: data, city });
+    res.render('main', { time: formattedTime, user: req.session.user, weatherData: data, city });
   } catch (error) {
     return res.status(500).json({ error: 'Internal Server Error' });
   }
