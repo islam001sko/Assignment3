@@ -18,7 +18,7 @@
       <div class="container-fluid">
         <a class="navbar-brand" href="#">Weather</a>
         <h3 class="navbar-nav text-white text-center">Welcome <%=user.username%>
-            </h6>
+            </h3>
             <ul class="navbar-nav d-flex flex-row me-1">
               <li class="nav-item me-3 me-lg-0">
                 <a class="nav-link text-white" href="/archive"><i class="fas fa-envelope mx-1"></i>
@@ -51,13 +51,44 @@
       <form action="/archive" method="get" class="mb-5">
         <div class="form-row align-items-center">
           <div class="col-auto">
-            <label for="year" class="sr-only text-white">Year</label>
-            <input type="number" class="form-control mb-2" id="year" name="year" placeholder="Year (For example: 2019)" min="1851" required>
+            <label class="form-check-label text-white">Filter By:</label>
           </div>
           <div class="col-auto">
-            <label for="month" class="sr-only text-white">Month</label>
-            <input type="number" class="form-control mb-2" id="month" name="month" placeholder="Month (For example: 7)" min="1" max="12"
-              required>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="filter" id="emailed" value="emailed">
+              <label class="form-check-label text-white" for="emailed">
+                Emailed
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="filter" id="shared" value="shared">
+              <label class="form-check-label text-white" for="shared">
+                Shared
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="filter" id="viewed" value="viewed">
+              <label class="form-check-label text-white" for="viewed">
+                Viewed
+              </label>
+            </div>
+          </div>
+          <div class="col-auto">
+            <label class="form-check-label text-white">For the last:</label>
+          </div>
+          <div class="col-auto">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="time" id="oneday" value="1">
+              <label class="form-check-label text-white" for="oneday">
+                1 Day
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="time" id="sevendays" value="7">
+              <label class="form-check-label text-white" for="sevendays">
+                7 Days
+              </label>
+            </div>
           </div>
           <div class="col-auto">
             <button type="submit" class="btn btn-primary mb-2">Fetch Articles</button>
@@ -67,36 +98,26 @@
 
       <% if (articles) { %>
         <div class="list-group">
-          <% articles.forEach(article=> { %>
-            <a href="<%= article.web_url %>"
-              class="list-group-item list-group-item-action flex-column align-items-start" target="_blank">
-              <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">
-                  <%= article.headline.main %>
-                </h5>
-                <small>
-                  <%= new Date(article.pub_date).toDateString() %>
-                </small>
-              </div>
-              <p class="mb-1">
-                <%= article.snippet %>
-              </p>
-              <small>
-                <%= article.section_name ? article.section_name : 'N/A' %>
-              </small>
-              <% if (article.byline && article.byline.original) { %>
-                <br><small>
-                  <%= article.byline.original %>
-                </small>
-                <% } %>
-            </a>
+            <% articles.forEach(article => { %>
+                <a href="<%= article.url %>" class="list-group-item list-group-item-action flex-column align-items-start" target="_blank">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1"><%= article.title %></h5>
+                        <small><%= new Date(article.published_date).toDateString() %></small>
+                    </div>
+                    <p class="mb-1"><%= article.abstract %></p>
+                    <small><%= article.section %></small>
+                </a>
             <% }) %>
         </div>
-        <% } else { %>
-          <p class="text-white">No articles found. Please select a year and month.</p>
-          <% } %>
+    <% } else { %>
+        <p class="text-white">No articles found. Please select a filter and time range.</p>
+    <% } %>
+    
     </div>
   </section>
+  <footer>
+    <h2>Islam Zhaslanuly SE-2202</h2>
+  </footer>
 </body>
 
 </html>
